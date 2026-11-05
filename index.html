@@ -172,3 +172,79 @@
 
     </div>
   </section>
+  <!-- SECCIÓN AUTOEVALUACIÓN Y FORMULARIO -->
+  <section id="autoevaluacion" class="py-16 bg-slate-900 border-b border-slate-800">
+    <div class="max-w-3xl mx-auto px-4">
+      
+      <!-- Encabezado de la sección -->
+      <div class="text-center mb-10">
+        <h2 class="text-2xl md:text-3xl font-bold mb-3">¿Qué harías antes de hacer clic?</h2>
+        <p class="text-slate-400 text-sm">Responde estas situaciones ficticias para evaluar tus criterios de seguridad digital.</p>
+      </div>
+
+      <!-- Formulario de Autoevaluación -->
+      <form class="space-y-6 bg-slate-800/40 border border-slate-700/50 p-6 md:p-8 rounded-2xl">
+        
+        <!-- Pregunta 1 -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-200 mb-3">1. Recibes un SMS que afirma que tu cuenta será suspendida si no ingresas a un enlace en 5 minutos. ¿Qué haces?</label>
+          <div class="space-y-2 text-sm text-slate-300">
+            <label class="flex items-center space-x-3 p-3 rounded-lg bg-slate-800 hover:bg-slate-700/60 cursor-pointer border border-slate-700">
+              <input type="radio" name="q1" value="A" class="text-blue-600 focus:ring-blue-500" />
+              <span>A) Abro el enlace rápidamente para evitar el bloqueo.</span>
+            </label>
+            <label class="flex items-center space-x-3 p-3 rounded-lg bg-slate-800 hover:bg-slate-700/60 cursor-pointer border border-slate-700">
+              <input type="radio" name="q1" value="B" class="text-blue-600 focus:ring-blue-500" />
+              <span>B) Ignoro el enlace y entro por mi cuenta a la app o web oficial.</span>
+            </label>
+            <label class="flex items-center space-x-3 p-3 rounded-lg bg-slate-800 hover:bg-slate-700/60 cursor-pointer border border-slate-700">
+              <input type="radio" name="q1" value="C" class="text-blue-600 focus:ring-blue-500" />
+              <span>C) Respondo al SMS solicitando más detalles.</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Pregunta 2 -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-200 mb-3">2. Una app solicita acceso a todos tus contactos aunque solo requiere una función básica. ¿Qué conviene hacer?</label>
+          <div class="space-y-2 text-sm text-slate-300">
+            <label class="flex items-center space-x-3 p-3 rounded-lg bg-slate-800 hover:bg-slate-700/60 cursor-pointer border border-slate-700">
+              <input type="radio" name="q2" value="A" class="text-blue-600 focus:ring-blue-500" />
+              <span>A) Aceptar todos los permisos solicitados.</span>
+            </label>
+            <label class="flex items-center space-x-3 p-3 rounded-lg bg-slate-800 hover:bg-slate-700/60 cursor-pointer border border-slate-700">
+              <input type="radio" name="q2" value="B" class="text-blue-600 focus:ring-blue-500" />
+              <span>B) Evaluar si el permiso es necesario y denegarlo si no corresponde.</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Pregunta 3 -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-200 mb-3">3. Identificas un mensaje dudoso que podría llegar a tu familia. ¿Qué acción ayuda mejor a tu entorno?</label>
+          <div class="space-y-2 text-sm text-slate-300">
+            <label class="flex items-center space-x-3 p-3 rounded-lg bg-slate-800 hover:bg-slate-700/60 cursor-pointer border border-slate-700">
+              <input type="radio" name="q3" value="A" class="text-blue-600 focus:ring-blue-500" />
+              <span>A) Reenviar el SMS tal cual para que estén alerta.</span>
+            </label>
+            <label class="flex items-center space-x-3 p-3 rounded-lg bg-slate-800 hover:bg-slate-700/60 cursor-pointer border border-slate-700">
+              <input type="radio" name="q3" value="B" class="text-blue-600 focus:ring-blue-500" />
+              <span>B) Guardar silencio y no comentar nada.</span>
+            </label>
+            <label class="flex items-center space-x-3 p-3 rounded-lg bg-slate-800 hover:bg-slate-700/60 cursor-pointer border border-slate-700">
+              <input type="radio" name="q3" value="C" class="text-blue-600 focus:ring-blue-500" />
+              <span>C) Avisar sobre la modalidad del engaño sin compartir el enlace sospechoso.</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Botón de Evaluación -->
+        <button id="submit-quiz-btn" type="button" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl text-sm transition-colors">
+          Comprobar Respuestas
+        </button>
+
+        <!-- Div para mostrar retroalimentación interactiva mediante JS -->
+        <div id="quiz-feedback" class="hidden"></div>
+      </form>
+    </div>
+  </section>
