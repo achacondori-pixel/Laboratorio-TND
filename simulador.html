@@ -1,1 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador de Decisiones (Twine) | Alerta Bancaria</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --amber: #fbbf24;
+      --emerald: #34d399;
+      --rose: #fb7185;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      line-height: 1.6;
+    }
+    .story-container {
+      width: 100%;
+      max-width: 680px;
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.75rem;
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.25s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .node-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #60a5fa;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+      color: #ffffff;
+    }
+    p {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      margin-bottom: 1rem;
+    }
+    .sms-box {
+      background-color: #0f172a;
+      border-left: 4px solid var(--amber);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1rem 0 1.25rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+    }
+    .sms-sender {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+      display: block;
+    }
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-top: 1.25rem;
+    }
+    button.choice-btn {
+      width: 100%;
+      text-align: left;
+      background-color: #0f172a;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.85rem 1rem;
+      border-radius: 0.65rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    button.choice-btn:hover {
+      background-color: rgba(59, 130, 246, 0.15);
+      border-color: var(--accent);
+      transform: translateX(3px);
+    }
+    button.choice-btn::after {
+      content: "→";
+      color: #60a5fa;
+      font-weight: bold;
+      margin-left: 0.75rem;
+    }
+    .outcome {
+      padding: 1rem;
+      border-radius: 0.65rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+    .outcome-risk {
+      background: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: #fda4af;
+    }
+    .outcome-warn {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fcd34d;
+    }
+    .outcome-safe {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+    }
+    .footer-meta {
+      margin-top: 1.5rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
 
+  <main class="story-container" id="app" aria-live="polite"></main>
+
+  <!-- Metadatos estructurales Twine 2 (9 Nodos y 3 Desenlaces) para respaldo editable -->
+  <tw-storydata name="Alerta Bancaria: Decisiones Seguras" startnode="1" creator="Twine" creator-version="2.8.1" format="Harlowe" format-version="3.3.8" hidden>
+    <tw-passagedata pid="1" name="Inicio">Recibes un mensaje SMS inesperado durante la tarde. [[Revisar el contenido del SMS->Nodo2]]</tw-passagedata>
+    <tw-passagedata pid="2" name="Nodo2">El mensaje indica una supuesta restricción temporal en tu cuenta bancaria. [[Hacer clic en el enlace del mensaje->Nodo3]] [[Detenerte y observar los detalles del mensaje->Nodo4]]</tw-passagedata>
+    <tw-passagedata pid="3" name="Nodo3">Se abre un formulario que pide tu clave web y código SMS. [[Ingresar tus datos para evitar el bloqueo->Desenlace1]] [[Cerrar la ventana sin escribir nada->Nodo5]]</tw-passagedata>
+    <tw-passagedata pid="4" name="Nodo4">Notas que el remitente es un número móvil común y la dirección web no coincide con el dominio oficial. [[Abrir la aplicación oficial de tu banco->Nodo6]] [[Responder al SMS preguntando si es real->Desenlace2]]</tw-passagedata>
+    <tw-passagedata pid="5" name="Nodo5">Cerraste la página a tiempo antes de compartir información. [[Verificar el estado real de tu cuenta por canales oficiales->Nodo6]]</tw-passagedata>
+    <tw-passagedata pid="6" name="Nodo6">Dentro de tu aplicación oficial confirmas que tu cuenta funciona con normalidad y no existe ninguna alerta. [[Reportar el SMS y alertar a tu familia sin reenviar el enlace->Desenlace3]]</tw-passagedata>
+    <tw-passagedata pid="7" name="Desenlace1">Desenlace 1: Exposición de credenciales.</tw-passagedata>
+    <tw-passagedata pid="8" name="Desenlace2">Desenlace 2: Confirmación de línea activa.</tw-passagedata>
+    <tw-passagedata pid="9" name="Desenlace3">Desenlace 3: Decisión informada y prevención comunitaria.</tw-passagedata>
+  </tw-storydata>
+
+  <script>
+    const nodes = {
+      nodo1: {
+        badge: "Nodo 1 de 9 • Inicio de la simulación",
+        title: "Un mensaje inesperado en tu teléfono",
+        text: "Son las 6:30 p. m. y estás por salir de clases o del trabajo. Tu teléfono vibra con una notificación de mensaje de texto (SMS) que parece urgente.",
+        sms: {
+          sender: "Remitente: +51 984-210-XXX (SMS)",
+          body: "ALERTA BANCARIA: Detectamos un acceso inusual. Su cuenta sera suspendida en 15 min. Valide su identidad aqui: http://seguridad-banca-verificacion.example.com"
+        },
+        choices: [
+          { label: "Revisar el contenido y evaluar qué hacer", next: "nodo2" }
+        ]
+      },
+      nodo2: {
+        badge: "Nodo 2 de 9 • Primera decisión",
+        title: "El factor urgencia",
+        text: "El mensaje menciona un plazo de apenas 15 minutos para evitar la suspensión. ¿Cuál es tu reacción inicial frente a esta situación?",
+        choices: [
+          { label: "Entrar rápido al enlace del SMS para resolverlo antes de que se bloquee", next: "nodo3" },
+          { label: "Hacer una pausa de 10 segundos y revisar con calma los detalles del SMS", next: "nodo4" }
+        ]
+      },
+      nodo3: {
+        badge: "Nodo 3 de 9 • Sitio externo simulado",
+        title: "Formulario de verificación",
+        text: "El enlace abre una página con colores similares a los de un banco conocido. Te solicita ingresar tu número de tarjeta, clave de 6 dígitos y el código de confirmación que llegue a tu celular.",
+        choices: [
+          { label: "Ingresar los datos solicitados para completar la validación", next: "desenlace1" },
+          { label: "Detenerte: notar que un banco no pide claves por enlaces SMS y cerrar la pestaña", next: "nodo5" }
+        ]
+      },
+      nodo4: {
+        badge: "Nodo 4 de 9 • Análisis de señales",
+        title: "Pausa, revisa y verifica",
+        text: "Al observar con detenimiento identificas tres señales: (1) proviene de un número celular común de 9 dígitos, (2) apela a la urgencia extrema, y (3) la dirección web no corresponde al portal oficial de tu entidad.",
+        choices: [
+          { label: "Ignorar el enlace y abrir directamente la app oficial de tu banco", next: "nodo6" },
+          { label: "Responder el mensaje SMS preguntando si realmente son del banco", next: "desenlace2" }
+        ]
+      },
+      nodo5: {
+        badge: "Nodo 5 de 9 • Rectificación a tiempo",
+        title: "Un paso atrás protege tus datos",
+        text: "Cerraste la página sin escribir ninguna contraseña ni código. Aunque abriste el enlace inicialmente, no entregaste información sensible.",
+        choices: [
+          { label: "Comprobar el estado real de tu cuenta ingresando por el canal oficial", next: "nodo6" }
+        ]
+      },
+      nodo6: {
+        badge: "Nodo 6 de 9 • Verificación oficial",
+        title: "Consulta en fuente confiable",
+        text: "Ingresas a tu aplicación bancaria oficial desde el ícono habitual de tu teléfono (o llamando al número al reverso de tu tarjeta). Compruebas que tu cuenta está activa y sin notificaciones de bloqueo.",
+        choices: [
+          { label: "Bloquear el número remitente y avisar a tu entorno sobre esta modalidad", next: "desenlace3" }
+        ]
+      },
+      desenlace1: {
+        badge: "Nodo 7 de 9 • Desenlace 1 de 3",
+        title: "Riesgo: Entrega de credenciales en sitio simulado",
+        outcomeClass: "outcome-risk",
+        outcomeText: "Al ingresar claves en enlaces recibidos por SMS (smishing), terceros pueden capturar tus credenciales de acceso.",
+        text: "En una situación real, lo recomendable sería comunicarse de inmediato con el canal oficial de la entidad financiera para solicitar el bloqueo preventivo de claves y tarjetas. Recuerda: nunca valides datos desde enlaces externos.",
+        choices: [
+          { label: "Volver a intentar la simulación aplicando la Guía Visual", next: "nodo1" }
+        ]
+      },
+      desenlace2: {
+        badge: "Nodo 8 de 9 • Desenlace 2 de 3",
+        title: "Precaución: Confirmación de línea activa",
+        outcomeClass: "outcome-warn",
+        outcomeText: "No entregaste tus contraseñas, pero al responder el SMS confirmas que tu número telefónico está activo y es leído.",
+        text: "Responder a remitentes desconocidos suele incrementar el envío de nuevos mensajes fraudulentos. La práctica más segura es no responder, bloquear el contacto y verificar siempre desde la aplicación o web oficial.",
+        choices: [
+          { label: "Explorar la ruta de verificación completa desde el inicio", next: "nodo1" }
+        ]
+      },
+      desenlace3: {
+        badge: "Nodo 9 de 9 • Desenlace 3 de 3",
+        title: "¡Decisión segura y prevención comunitaria!",
+        outcomeClass: "outcome-safe",
+        outcomeText: "Aplicaste correctamente los pasos: hiciste una pausa, evitaste el enlace, verificaste en la app oficial y advertiste a tu entorno sin reenviar el link malicioso.",
+        text: "Has completado con éxito el recorrido preventivo. Tu criterio demuestra cómo una pausa breve transforma un mensaje de urgencia en una decisión informada.",
+        choices: [
+          { label: "Reiniciar el simulador para explorar otras rutas", next: "nodo1" }
+        ]
+      }
+    };
+
+    function renderNode(nodeKey) {
+      const node = nodes[nodeKey];
+      const app = document.getElementById("app");
+
+      let smsHtml = "";
+      if (node.sms) {
+        smsHtml = `
+          <div class="sms-box">
+            <span class="sms-sender">${node.sms.sender}</span>
+            <div>${node.sms.body}</div>
+          </div>
+        `;
+      }
+
+      let outcomeHtml = "";
+      if (node.outcomeText) {
+        outcomeHtml = `
+          <div class="outcome ${node.outcomeClass}">
+            <strong>Resultado del recorrido:</strong> ${node.outcomeText}
+          </div>
+        `;
+      }
+
+      const choicesHtml = node.choices.map(c => `
+        <button type="button" class="choice-btn" onclick="renderNode('${c.next}')">
+          <span>${c.label}</span>
+        </button>
+      `).join("");
+
+      app.innerHTML = `
+        <div class="story-container">
+          <span class="node-badge">${node.badge}</span>
+          <h2>${node.title}</h2>
+          ${outcomeHtml}
+          <p>${node.text}</p>
+          ${smsHtml}
+          <div class="choices">${choicesHtml}</div>
+          <div class="footer-meta">
+            <span>Simulador Educativo Twine • Grupo 3 (UNSA)</span>
+            <span>Versión B • Sin captura de datos</span>
+          </div>
+        </div>
+      `;
+    }
+
+    renderNode("nodo1");
+  </script>
+</body>
+</html>
